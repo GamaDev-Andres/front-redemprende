@@ -8,6 +8,9 @@ export default function Home() {
   const handleCreateProfile = () => {
     router.push("/create-profile");
   };
+  const handleExplore = () => {
+    router.push("/explore");
+  };
 
   return (
 <div className="relative min-h-screen p-8 sm:p-20 flex flex-col items-center justify-center text-center font-[family-name:var(--font-geist-sans)] text-gray-800 bg-gradient-to-r">
@@ -28,7 +31,7 @@ export default function Home() {
         <Button variant="outline" onClick={handleCreateProfile}>
           Crear Perfil
         </Button>
-        <Button variant="default" onClick={handleCreateProfile}>
+        <Button variant="default" onClick={handleExplore}>
           Explorar emprendimientos
         </Button>
       </div>

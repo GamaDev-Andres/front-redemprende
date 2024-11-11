@@ -30,14 +30,12 @@ export default function BusinessForm() {
 
   const onSubmit = (data: FormValues) => {
     console.log("Datos del emprendimiento:", data);
-    // Aquí podrías enviar los datos a una API
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 max-w-lg mx-auto p-8 bg-white rounded-md shadow-md">
       <h1 className="text-2xl font-bold text-center mb-4">Registrar Emprendimiento</h1>
       
-      {/* Nombre de la empresa */}
       <div>
         <Label htmlFor="businessName">Nombre de la Empresa</Label>
         <Input
@@ -48,7 +46,6 @@ export default function BusinessForm() {
         {errors.businessName && <p className="text-red-500 text-sm">{errors.businessName.message}</p>}
       </div>
 
-      {/* Categorías */}
       <div>
         <Label>Categorías</Label>
         <Controller
@@ -65,8 +62,6 @@ export default function BusinessForm() {
         />
         {errors.categories && <p className="text-red-500 text-sm">Selecciona al menos una categoría.</p>}
       </div>
-
-      {/* Descripción */}
       <div>
         <Label htmlFor="description">Descripción del Emprendimiento</Label>
         <Textarea
@@ -76,8 +71,6 @@ export default function BusinessForm() {
         />
         {errors.description && <p className="text-red-500 text-sm">{errors.description.message}</p>}
       </div>
-
-      {/* Ubicación */}
       <div>
         <Label htmlFor="location">Ubicación</Label>
         <Input
@@ -87,8 +80,6 @@ export default function BusinessForm() {
         />
         {errors.location && <p className="text-red-500 text-sm">{errors.location.message}</p>}
       </div>
-
-      {/* Sitio Web */}
       <div>
         <Label htmlFor="website">Sitio Web (opcional)</Label>
         <Input
@@ -103,8 +94,6 @@ export default function BusinessForm() {
         />
         {errors.website && <p className="text-red-500 text-sm">{errors.website.message}</p>}
       </div>
-
-      {/* Redes Sociales */}
       <div>
         <Label htmlFor="socialMedia">Redes Sociales (opcional)</Label>
         <Input
@@ -113,8 +102,6 @@ export default function BusinessForm() {
           {...register("socialMedia")}
         />
       </div>
-
-      {/* Botón de envío */}
       <Button type="submit" variant="default" className="w-full">
         Registrar Emprendimiento
       </Button>

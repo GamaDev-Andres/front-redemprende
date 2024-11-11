@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import './globals.css'
 import SessionWrapper from '@/components/SessionWrapper'
+import { ThemeProvider } from '@/components/ThemeProvider'
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -16,7 +17,8 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: 'Red de Emprendimiento',
-  description: 'Plataforma de Emprendedores de Villavicencio'
+  description: 'Plataforma de Emprendedores de Villavicencio',
+  
 }
 
 export default function RootLayout ({
@@ -30,7 +32,14 @@ export default function RootLayout ({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          {children}
+          <ThemeProvider
+            attribute='class'
+            defaultTheme='system'
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+          </ThemeProvider>
         </body>
       </html>
     </SessionWrapper>

@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/navigation-menu'
 import LogoutButton from './LogoutButton'
 import AvatarLink from './AvatarLink'
+import { ModeToggle } from './ModeToogle'
 
 export function NavMenu () {
   return (
@@ -20,10 +21,10 @@ export function NavMenu () {
       <NavigationMenu>
         <NavigationMenuList className='gap-3'>
           <NavigationMenuItem>
-            <AvatarLink/>
+            <AvatarLink />
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <Link href='/docs' legacyBehavior passHref>
+            <Link href='/explore' legacyBehavior passHref>
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                 Explorar
               </NavigationMenuLink>
@@ -31,6 +32,9 @@ export function NavMenu () {
           </NavigationMenuItem>
           <NavigationMenuItem>
             <LogoutButton />
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <ModeToggle />
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
