@@ -10,7 +10,6 @@ interface Props {
   }
 }
 const Profile = ({ params }: Props) => {
-  console.log({ params })
   const { data, isError } = useGetProfileByIdQuery(params?.id ?? '')
   const { push } = useRouter()
   if (isError) return push('/')

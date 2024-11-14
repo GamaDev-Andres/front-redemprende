@@ -14,7 +14,6 @@ const ProfileInfo = (props: ProfileProps) => {
   if (!data) {
     return <p className="text-center text-gray-500">No hay información disponible.</p>;
   }
-  console.log({data});
   
   return (
     <Card className="max-w-sm mx-auto shadow-none border-none p-0">

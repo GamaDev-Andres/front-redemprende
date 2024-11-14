@@ -33,7 +33,7 @@ export interface IBusinessResponse {
   description: string
   website?: string
   nit?: string
-  categories: string[]
+  categories: ICategoryResponse[]
 }
 export interface ICategoryResponse {
   id: number

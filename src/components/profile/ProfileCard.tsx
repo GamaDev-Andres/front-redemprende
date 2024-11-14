@@ -1,79 +1,75 @@
 // components/ProfileCard.tsx
-import React from 'react'
+import React from 'react';
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
   CardDescription,
-} from '@/components/ui/card'
-import { FaGlobe, FaFacebook } from 'react-icons/fa'
-import { Button } from '../ui/button'
-import { Badge } from '../ui/badge'
+} from '@/components/ui/card';
+import { FaGlobe } from 'react-icons/fa';
+import { Badge } from '../ui/badge';
+import { IBusinessResponse } from '@/types';
 
-interface ProfileProps {
-  businessName: string
-  categories: string[]
-  description: string
-  location: string
-  website?: string
-  socialMedia?: string
-}
-
-const ProfileCard: React.FC<ProfileProps> = ({
-  businessName,
+const ProfileCard: React.FC<IBusinessResponse> = ({
+  name,
   categories,
   description,
-  location,
   website,
-  socialMedia
+  city,
+  corporateEmail,
+  country,
+  address,
 }) => {
   return (
-    <Card className='max-w-md w-full p-4 shadow-md rounded-md mx-auto'>
+    <Card className="max-w-md shadow-md border border-gray-300 rounded-lg">
       <CardHeader>
-        <CardTitle className='text-2xl font-semibold'>{businessName}</CardTitle>
-        <CardDescription className='mt-1'>
-          {location}
+        <CardTitle className="text-xl font-semibold text-gray-800 dark:text-white">
+          {name}
+        </CardTitle>
+        <CardDescription className="text-sm">
+          {city}, {country}
         </CardDescription>
       </CardHeader>
-
-      <CardContent className='space-y-4'>
-        <div className='flex flex-wrap gap-2'>
-          {categories.map((category, index) => (
-            <Badge key={index} className='bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-100'>
-              {category}
-            </Badge>
-          ))}
+      <CardContent>
+        <p className="text-sm mb-4">{description}</p>
+        <div className="mb-4">
+          <p className="text-sm font-medium text-gray-600 dark:text-white">Dirección:</p>
+          <p className="text-sm">{address}</p>
         </div>
-
-        <p className='text-sm'>{description}</p>
-
-        {website && (
-          <Button
-            variant='link'
-            className='text-blue-600 dark:text-blue-400 hover:underline mt-4'
-            asChild
-          >
-            <a href={website} target='_blank' rel='noopener noreferrer'>
-              <FaGlobe className='inline-block mr-2' /> Sitio Web
+        <div className="mb-4">
+          <p className="text-sm font-medium text-gray-600 dark:text-white">Categorias:</p>
+          <div className="flex flex-wrap gap-2">
+            {categories.map((category, index) => (
+              <Badge key={index} variant="outline" className="text-sm">
+                {category.name}
+              </Badge>
+            ))}
+          </div>
+        </div>
+        <div className="flex items-center justify-between mt-4">
+          {website && (
+            <a
+              href={website}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm border border-gray-300 rounded-md px-4 py-2 flex items-center hover:bg-gray-100"
+            >
+              <FaGlobe className="mr-2" /> Sitio Web
             </a>
-          </Button>
-        )}
-
-        {socialMedia && (
-          <Button
-            variant='link'
-            className='text-blue-600 dark:text-blue-400 hover:underline'
-            asChild
-          >
-            <a href={socialMedia} target='_blank' rel='noopener noreferrer'>
-              <FaFacebook className='inline-block mr-2' /> Redes Sociales
+          )}
+          {corporateEmail && (
+            <a
+              href={`mailto:${corporateEmail}`}
+              className="text-sm border border-gray-300 rounded-md px-4 py-2 flex items-center hover:bg-gray-100"
+            >
+              Contacto
             </a>
-          </Button>
-        )}
+          )}
+        </div>
       </CardContent>
     </Card>
-  )
-}
+  );
+};
 
-export default ProfileCard
+export default ProfileCard;

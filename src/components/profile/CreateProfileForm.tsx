@@ -27,10 +27,8 @@ export default function BusinessForm () {
   const {data: categories} =useGetCategoriesQuery()
   const { data: session } = useSession()
   const { toast } = useToast()
-  console.log({ session });
   
   const onSubmit = async (data: IBusinessForm) => {
-    console.log('Datos del negocio:', data)
     const body: BusinessRequestDTO = {
       ...data,
       userEmail: session?.user?.email ?? ''
