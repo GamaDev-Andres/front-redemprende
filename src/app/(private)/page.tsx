@@ -13,7 +13,7 @@ export default function Home() {
   };
 
   return (
-<div className="relative min-h-screen p-8 sm:p-20 flex flex-col items-center justify-center text-center font-[family-name:var(--font-geist-sans)] text-gray-800 bg-gradient-to-r">
+<div className="relative min-h-screen p-8 sm:p-20 flex flex-col items-center justify-center text-center font-[family-name:var(--font-geist-sans)] bg-gradient-to-r">
       {/* Fondo decorativo adicional */}
 
       {/* Contenido principal */}

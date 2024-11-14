@@ -1,10 +1,12 @@
 'use client'
 import React from 'react'
-import { useForm, SubmitHandler } from 'react-hook-form'
+import { useForm, SubmitHandler, Controller } from 'react-hook-form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
+import { MultiSelect } from '../ui/multi-select'
+import { useGetCategoriesQuery } from '@/queries/category'
 
 interface HeaderExploreSectionProps {
   categories: string[]
@@ -15,26 +17,27 @@ interface FormInputs {
   selectedCategories: string[]
 }
 
-const HeaderExploreSection: React.FC<HeaderExploreSectionProps> = ({
-  categories
-}) => {
-  const { register, handleSubmit, setValue, getValues, watch } =
+const HeaderExploreSection = () => {
+  const { register, handleSubmit, setValue, getValues, watch, control } =
     useForm<FormInputs>({
       defaultValues: {
         searchQuery: '',
         selectedCategories: []
       }
     })
+  const { data: categories = [] } = useGetCategoriesQuery()
+
   const handleCategoryToggle = (category: string) => {
     const currentCategories = watch('selectedCategories')
     const updatedCategories = currentCategories.includes(category)
-      ? currentCategories.filter(item => item !== category) 
+      ? currentCategories.filter(item => item !== category)
       : [...currentCategories, category]
 
     setValue('selectedCategories', updatedCategories)
   }
   const currentCategories = getValues('selectedCategories')
-
+  console.log({ currentCategories });
+  
   const onSubmit: SubmitHandler<FormInputs> = data => {
     console.log({ data })
   }
@@ -66,22 +69,25 @@ const HeaderExploreSection: React.FC<HeaderExploreSectionProps> = ({
         </form>
 
         <div className='flex flex-wrap gap-2 mt-2'>
-          {categories.map((category, index) => {
-            const isSelected = currentCategories.includes(category)
-            return (
-              <Badge
-                key={index}
-                onClick={() => handleCategoryToggle(category)}
-                className={`cursor-pointer ${
-                  isSelected
-                    ? 'bg-blue-500 text-white'
-                    : 'bg-gray-100 text-gray-800'
-                } hover:bg-gray-200 transition`}
-              >
-                {category}
-              </Badge>
-            )
-          })}
+          <Controller
+            name='selectedCategories'
+            control={control}
+            render={({ field }) => (
+              <MultiSelect
+                options={
+                  categories?.map(c => ({
+                    label: c.name,
+                    value: c.id?.toString(),
+                    icon: undefined
+                  })) ?? []
+                }
+                className='max-w-lg'
+                placeholder='Selecciona una o más categorías'
+                value={field.value}
+                onValueChange={field.onChange}
+              />
+            )}
+          />
         </div>
       </CardContent>
     </Card>

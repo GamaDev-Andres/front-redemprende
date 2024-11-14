@@ -3,7 +3,7 @@ import localFont from 'next/font/local'
 import './globals.css'
 import SessionWrapper from '@/components/SessionWrapper'
 import { ThemeProvider } from '@/components/ThemeProvider'
-
+import { Toaster } from '@/components/ui/toaster'
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
   variable: '--font-geist-sans',
@@ -17,8 +17,7 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: 'Red de Emprendimiento',
-  description: 'Plataforma de Emprendedores de Villavicencio',
-  
+  description: 'Plataforma de Emprendedores de Villavicencio'
 }
 
 export default function RootLayout ({
@@ -28,20 +27,24 @@ export default function RootLayout ({
 }>) {
   return (
     <SessionWrapper>
-      <html lang='en'>
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
-          <ThemeProvider
-            attribute='class'
-            defaultTheme='system'
-            enableSystem
-            disableTransitionOnChange
+      
+        <html lang='en'>
+          <body
+            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
           >
-            {children}
-          </ThemeProvider>
-        </body>
-      </html>
+            <ThemeProvider
+              attribute='class'
+              defaultTheme='system'
+              enableSystem
+              disableTransitionOnChange
+            >
+              {children}
+            </ThemeProvider>
+            <Toaster />
+
+          </body>
+        </html>
+      {/* </QueryClientProvider> */}
     </SessionWrapper>
   )
 }

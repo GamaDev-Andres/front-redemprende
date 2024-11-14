@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import { FaGoogle } from 'react-icons/fa';
 
 const AuthPage = () => {
   const { status } = useSession();
@@ -20,7 +21,7 @@ const AuthPage = () => {
   }, [status, router]);
 
   return (
-    <div className="relative min-h-screen flex flex-col justify-center items-center text-gray-800 text-center p-8">
+    <div className="relative min-h-screen flex flex-col justify-center items-center text-center p-8">
       {/* Fondo adicional para efecto visual */}
       
       <h1 className="text-4xl font-bold mb-4">
@@ -32,7 +33,7 @@ const AuthPage = () => {
       </p>
       {status === 'unauthenticated' ? (
         <Button variant="default" onClick={handleLogin}>
-          Iniciar sesión con Google
+          <FaGoogle/> Iniciar sesión con Google
         </Button>
       ) : (
         <Button variant="default" onClick={handleLogout}>

@@ -31,6 +31,13 @@ export function NavMenu () {
             </Link>
           </NavigationMenuItem>
           <NavigationMenuItem>
+            <Link href='/' legacyBehavior passHref>
+              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                Home
+              </NavigationMenuLink>
+            </Link>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
             <LogoutButton />
           </NavigationMenuItem>
           <NavigationMenuItem>
