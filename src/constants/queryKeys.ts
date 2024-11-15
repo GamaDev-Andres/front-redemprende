@@ -5,5 +5,8 @@ export const QUERY_KEYS = {
     PROFILE: {
         GETBYID: 'GET_PROFILE_BY_ID',
         GETALL: 'GET_ALL_PROFILES'
+    },
+    POST: {
+        GETALL: 'GET_ALL_POSTS'
     }
 }

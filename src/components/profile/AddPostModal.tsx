@@ -7,20 +7,23 @@ import { Button } from '../ui/button'
 import { Label } from '../ui/label'
 import { Input } from '../ui/input'
 import { Textarea } from '../ui/textarea'
+import { useCreatePostMutation } from '@/mutations/post'
+import { useSession } from 'next-auth/react'
 const cloudName = process.env.NEXT_PUBLIC_CLOUD_NAME
 const uploadPreset = process.env.NEXT_PUBLIC_UPLOAD_PRESET
 
 interface IFormPost {
-    title: string
-    description: string
-    imageUrl: string
+  title: string
+  description: string
+  imageUrl: string
 }
 const AddPostModal: React.FC = () => {
   const { register, handleSubmit, reset } = useForm<IFormPost>()
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [imageUploading, setImageUploading] = useState(false)
   const [imageUrl, setImageUrl] = useState<string | null>(null)
-
+  const { mutateAsync } = useCreatePostMutation()
+  const {data:session} = useSession()
   const uploadImage = async (file: File) => {
     setImageUploading(true)
     const formData = new FormData()
@@ -42,17 +45,25 @@ const AddPostModal: React.FC = () => {
   useEffect(() => {
     if (!isDialogOpen) {
       reset()
+      setImageUrl(null)
     }
   }, [isDialogOpen])
-  const handleFormSubmit = (data: IFormPost) => {
-    console.log({ data, imageUrl })
+  const handleFormSubmit = async (data: IFormPost) => {
+    if (!imageUrl) return
+    const res = await mutateAsync({ ...data, imageUrl ,userId:session?.user?.id ?? 0})
+    if (res.id) {
+      setIsDialogOpen(false)
+      setImageUrl(null)
+    }
   }
 
   return (
     <div>
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogTrigger asChild>
-          <Button className='px-4 py-2 my-4  rounded'>Agregar Publicación</Button>
+          <Button className='px-4 py-2 my-4  rounded'>
+            Agregar Publicación
+          </Button>
         </DialogTrigger>
         <DialogContent>
           <form onSubmit={handleSubmit(handleFormSubmit)} className='space-y-4'>

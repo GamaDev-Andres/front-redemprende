@@ -2,7 +2,8 @@
 const nextConfig = {
     images: {
         domains: [
-          "picsum.photos"
+          "picsum.photos",
+          "res.cloudinary.com"
         ],
       },
 };

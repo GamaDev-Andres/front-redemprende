@@ -51,3 +51,15 @@ export interface IProfileResponse {
   categories: ICategoryResponse[]
   id: number
 }
+export interface IPostRequest{
+  title: string
+  description: string
+  imageUrl: string
+  userId:number
+}
+export interface IPostResponse{
+  id: number
+  title: string
+  description: string
+  imageUrl: string
+}
