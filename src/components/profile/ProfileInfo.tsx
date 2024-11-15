@@ -2,10 +2,9 @@
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
-import { Toggle } from '@/components/ui/toggle'
 import { IProfileResponse } from '@/types'
-import { useState } from 'react'
-import { Star } from 'lucide-react'
+import ToogleRecomendation from './ToogleRecomendation'
+import RatingSection from './RatingSection'
 
 interface ProfileProps {
   data: IProfileResponse | undefined
@@ -13,8 +12,6 @@ interface ProfileProps {
 
 const ProfileInfo = (props: ProfileProps) => {
   const { data } = props
-  const [isRecommended, setIsRecommended] = useState(false)
-  const [rating, setRating] = useState(0)
 
   if (!data) {
     return (
@@ -106,40 +103,15 @@ const ProfileInfo = (props: ProfileProps) => {
 
         {/* Calificación */}
         <Separator />
-        <div className='space-y-2'>
-          <h2 className='text-lg font-semibold'>Calificación</h2>
-          <div className='flex items-center gap-1'>
-            {Array.from({ length: 5 }).map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setRating(index + 1)}
-                className={`${
-                  rating > index ? 'text-yellow-500' : 'text-gray-400'
-                } hover:text-yellow-400 transition`}
-              >
-                <Star size={20} />
-              </button>
-            ))}
-          </div>
-          <p className='text-sm text-gray-500'>Calificación: {rating} de 5</p>
-        </div>
+        <RatingSection />
 
         {/* Recomendación */}
         <Separator />
         <div className='space-y-2'>
-          <h2 className='text-lg font-semibold'>Recomendar este emprendimiento</h2>
-
-          <Toggle
-            pressed={isRecommended}
-            onPressedChange={state => setIsRecommended(state)}
-            className={`${
-              isRecommended
-                ? 'bg-blue-500 text-white'
-                : 'bg-gray-200 text-gray-700'
-            } px-4 py-2 rounded-md`}
-          >
-            {isRecommended ? 'Recomendado' : 'Recomendar'}
-          </Toggle>
+          <h2 className='text-lg font-semibold'>
+            Recomendar este emprendimiento
+          </h2>
+          <ToogleRecomendation />
         </div>
       </CardContent>
     </Card>

@@ -8,5 +8,11 @@ export const MUTATION_KEYS = {
   },
   POST: {
     CREATE: 'CREATE_POST'
+  },
+  RATING:{
+    CREATE: 'CREATE_RATING'
+  },
+  RECOMMENDATION: {
+    CREATE: 'CREATE_RECOMMENDATION'
   }
 }

@@ -63,3 +63,16 @@ export interface IPostResponse{
   description: string
   imageUrl: string
 }
+
+export interface IRecommendationRequest{
+  userId: number
+  businessId: number
+  recommended: boolean
+
+}
+export interface IRatingRequest{
+  userId: number
+  businessId: number
+  rating: number
+  comment?:string | null
+}
