@@ -17,12 +17,17 @@ import { ModeToggle } from './ModeToogle'
 
 export function NavMenu () {
   return (
-    <header className='sticky top-0 z-50 flex items-center justify-end border-b bg-background p-4'>
-      <NavigationMenu>
-        <NavigationMenuList className='gap-3'>
-          <NavigationMenuItem>
-            <AvatarLink />
-          </NavigationMenuItem>
+    <header className='sticky top-0 z-50 flex flex-wrap items-center justify-between border-b bg-background p-4 sm:flex-nowrap'>
+      {/* Logo/Avatar */}
+      <div className='flex w-full justify-between sm:w-auto'>
+        <AvatarLink />
+        <div className='flex sm:hidden'>
+          <ModeToggle />
+        </div>
+      </div>
+
+      <NavigationMenu className='mx-auto'>
+        <NavigationMenuList className='flex flex-col gap-2 sm:flex-row sm:gap-3 items-center'>
           <NavigationMenuItem>
             <Link href='/explore' legacyBehavior passHref>
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>
@@ -47,11 +52,12 @@ export function NavMenu () {
           <NavigationMenuItem>
             <LogoutButton />
           </NavigationMenuItem>
-          <NavigationMenuItem>
-            <ModeToggle />
-          </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
+
+      <div className='hidden sm:flex'>
+        <ModeToggle />
+      </div>
     </header>
   )
 }

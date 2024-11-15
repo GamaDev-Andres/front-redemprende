@@ -21,7 +21,7 @@ const Explore = () => {
     let queryData = data
 
     if (watch('selectedCategories').length === 0 && !watch('searchQuery'))
-      return data
+      return data ? data : []
     if (queryData && data) {
       if (watch('selectedCategories').length > 0) {
         queryData = data.filter(profile =>
@@ -39,7 +39,7 @@ const Explore = () => {
       }
     }
 
-    return queryData
+    return queryData ? queryData : []
   }, [data, watch('selectedCategories'), watch('searchQuery')])
 
   return (
@@ -47,7 +47,7 @@ const Explore = () => {
       <main className='dark:bg-slate-900 py-2'>
         <HeaderExploreSection />
         <div className='p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
-          {(dataFiltered ?? []).map(post => (
+          {(dataFiltered?.length > 0 ? dataFiltered : []).map(post => (
             <ProfileCard {...post} key={post.id} />
           ))}
         </div>
