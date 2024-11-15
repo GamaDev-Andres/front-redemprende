@@ -10,15 +10,24 @@ const urlBackend = process.env.NEXT_PUBLIC_API_URL;
 const RegisterForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState("");
   const [error, setError] = useState("");
+
   const reset = () => {
     setEmail("");
     setPassword("");
+    setConfirmPassword("");
     setName("");
     setError("");
-  }
+  };
+
   const handleRegister = async () => {
+    if (password !== confirmPassword) {
+      setError("Las contraseñas no coinciden.");
+      return;
+    }
+
     try {
       const res = await fetch(`${urlBackend}/user/register`, {
         method: "POST",
@@ -68,6 +77,13 @@ const RegisterForm = () => {
             placeholder="Contraseña"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            className="w-full"
+          />
+          <Input
+            type="password"
+            placeholder="Confirmar contraseña"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
             className="w-full"
           />
         </div>
