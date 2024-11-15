@@ -26,7 +26,7 @@ const RegisterForm = () => {
         const data = await res.json();
         setError(data.message || "Error al registrar.");
       }
-    } catch (err) {
+    } catch {
       setError("Error al registrar.");
     }
   };
@@ -38,7 +38,7 @@ const RegisterForm = () => {
           e.preventDefault();
           handleRegister();
         }}
-        className="bg-white p-8 shadow-lg rounded-lg w-full max-w-sm"
+        className="p-8 shadow-lg rounded-lg w-full max-w-sm"
       >
         <h2 className="text-2xl font-bold mb-6 text-center">Crear Cuenta</h2>
         <div className="space-y-4">

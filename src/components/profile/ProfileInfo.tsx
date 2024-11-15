@@ -7,7 +7,7 @@ import ToogleRecomendation from './ToogleRecomendation'
 import RatingSection from './RatingSection'
 import { useSession } from 'next-auth/react'
 import { useParams } from 'next/navigation'
-import { FaStar, FaThumbsUp } from 'react-icons/fa'
+import { FaThumbsUp } from 'react-icons/fa'
 import RatingsModal from '../RatingsModal'
 
 interface ProfileProps {

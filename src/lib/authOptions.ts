@@ -48,6 +48,7 @@ export const authOptions: NextAuthOptions = {
         const res = await signInApi({
           email: user.email as string,
           name: user.name as string,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           imageUrl: (user.image ?? (user as any)?.imageUrl ?? "") as string
         })
         

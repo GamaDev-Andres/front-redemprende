@@ -2,10 +2,9 @@
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { signIn, signOut, useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { FaGoogle } from 'react-icons/fa'
 import RegisterForm from '@/components/register/RegisterForm'
 import LoginForm from '@/components/Login/LoginForm'
@@ -13,12 +12,6 @@ import LoginForm from '@/components/Login/LoginForm'
 const AuthPage = () => {
   const { status } = useSession()
   const router = useRouter()
-
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [name, setName] = useState('')
-  const [error, setError] = useState('')
-
   const handleGoogleLogin = () => signIn('google')
   const handleLogout = () => signOut()
 

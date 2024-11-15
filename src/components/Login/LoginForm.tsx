@@ -6,7 +6,6 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { signIn } from 'next-auth/react'
 
-const urlBackend = process.env.NEXT_PUBLIC_API_URL
 
 const LoginForm = () => {
   const [email, setEmail] = useState('')
@@ -34,7 +33,7 @@ const LoginForm = () => {
           e.preventDefault()
           handleLogin()
         }}
-        className='bg-white p-8 shadow-lg rounded-lg w-full max-w-sm'
+        className='p-8 shadow-lg rounded-lg w-full max-w-sm'
       >
         <h2 className='text-2xl font-bold mb-6 text-center'>Iniciar Sesión</h2>
         <div className='space-y-4'>
