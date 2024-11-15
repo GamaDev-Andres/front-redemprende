@@ -14,5 +14,8 @@ export const MUTATION_KEYS = {
   },
   RECOMMENDATION: {
     CREATE: 'CREATE_RECOMMENDATION'
+  },
+  COUPON: {
+    CREATE: 'CREATE_COUPON'
   }
 }

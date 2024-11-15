@@ -11,9 +11,20 @@ import { useCreateBusinessMutation } from '@/mutations/business'
 import { useSession } from 'next-auth/react'
 import { useToast } from '@/hooks/use-toast'
 import { useGetCategoriesQuery } from '@/queries/category'
-
-
-
+import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet'
+import 'leaflet/dist/leaflet.css'
+import L from 'leaflet';
+import markerIcon from 'leaflet/dist/images/marker-icon.png';
+import markerShadow from 'leaflet/dist/images/marker-shadow.png';
+const defaultIcon = L.icon({
+  iconUrl: markerIcon.src,
+  shadowUrl: markerShadow.src,
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41],
+});
+L.Marker.prototype.options.icon = defaultIcon;
 export default function BusinessForm () {
   const {
     handleSubmit,
@@ -21,13 +32,14 @@ export default function BusinessForm () {
     register,
     reset,
     setValue,
+    watch,
     formState: { errors }
   } = useForm<IBusinessForm>()
   const { mutateAsync } = useCreateBusinessMutation()
-  const {data: categories} =useGetCategoriesQuery()
+  const { data: categories } = useGetCategoriesQuery()
   const { data: session } = useSession()
   const { toast } = useToast()
-  
+
   const onSubmit = async (data: IBusinessForm) => {
     const body: BusinessRequestDTO = {
       ...data,
@@ -35,17 +47,28 @@ export default function BusinessForm () {
     }
     const res = await mutateAsync(body)
 
-    if(res.id){
+    if (res.id) {
       toast({
-        variant: "default",
-        title: "Negocio creado",
-        description: "El negocio ha sido creado exitosamente.",
+        variant: 'default',
+        title: 'Negocio creado',
+        description: 'El negocio ha sido creado exitosamente.'
       })
     }
     reset()
     setValue('categories', [])
+  }
 
-    // Aquí puedes hacer el POST al backend utilizando fetch o axios
+  const LocationSelector = ({
+    onSelectLocation
+  }: {
+    onSelectLocation: (coords: [number, number]) => void
+  }) => {
+    useMapEvents({
+      click (e) {
+        onSelectLocation([e.latlng.lat, e.latlng.lng])
+      }
+    })
+    return null
   }
 
   return (
@@ -96,7 +119,13 @@ export default function BusinessForm () {
           control={control}
           render={({ field }) => (
             <MultiSelect
-              options={(categories?.map(c => ({ label: c.name, value: c.id?.toString(),icon:undefined})) ?? [])}
+              options={
+                categories?.map(c => ({
+                  label: c.name,
+                  value: c.id?.toString(),
+                  icon: undefined
+                })) ?? []
+              }
               placeholder='Selecciona una o más categorías'
               value={field.value}
               onValueChange={field.onChange}
@@ -177,6 +206,64 @@ export default function BusinessForm () {
           placeholder='Ej. Calle 123 #45-67'
           {...register('address')}
         />
+      </div>
+
+      <div>
+        <Label htmlFor='latitude'>Latitud</Label>
+        <Input
+          id='latitude'
+          placeholder='Ej. 4.710989'
+          {...register('latitude', {
+            required: 'La latitud es obligatoria.',
+            pattern: {
+              value: /^-?\d+(\.\d+)?$/,
+              message: 'Debe ser una latitud válida.'
+            }
+          })}
+        />
+        {errors.latitude && (
+          <p className='text-red-500 text-sm'>{errors.latitude.message}</p>
+        )}
+      </div>
+
+      <div>
+        <Label htmlFor='longitude'>Longitud</Label>
+        <Input
+          id='longitude'
+          placeholder='Ej. -74.072092'
+          {...register('longitude', {
+            required: 'La longitud es obligatoria.',
+            pattern: {
+              value: /^-?\d+(\.\d+)?$/,
+              message: 'Debe ser una longitud válida.'
+            }
+          })}
+        />
+        {errors.longitude && (
+          <p className='text-red-500 text-sm'>{errors.longitude.message}</p>
+        )}
+      </div>
+
+      <div>
+        <MapContainer
+          center={[4.710989, -74.072092]} // Coordenadas iniciales
+          zoom={13}
+          style={{ height: '400px', width: '100%' }}
+        >
+          <TileLayer
+            url='https://tile.openstreetmap.org/{z}/{x}/{y}.png'
+            attribution="&copy; <a href='http://osm.org/copyright'>OpenStreetMap</a> contributors"
+          />
+          <LocationSelector
+            onSelectLocation={coords => {
+              setValue('latitude', coords[0])
+              setValue('longitude', coords[1])
+            }}
+          />
+          {watch('latitude') && watch('longitude') && (
+            <Marker position={[watch('latitude'), watch('longitude')]} />
+          )}
+        </MapContainer>
       </div>
 
       <Button type='submit' variant='default' className='w-full'>

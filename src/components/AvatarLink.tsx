@@ -13,7 +13,7 @@ const AvatarLink = () => {
       legacyBehavior
       passHref
     >
-      <Avatar title='Perfil' className='cursor-pointer' about='user'>
+      <Avatar title={data?.user?.email} className='cursor-pointer' about='user'>
         <AvatarImage
           src={data?.user?.image || ''}
           alt={data?.user?.name || ''}

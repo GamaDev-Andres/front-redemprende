@@ -15,5 +15,8 @@ export const QUERY_KEYS = {
     RATING: {
         GET: 'GET_RATING',
         GET_ALL_BY_BUSINESS: 'GET_ALL_RATINGS_BY_BUSINESS'
+    },
+    COUPON: {
+        GET: 'GET_COUPON'
     }
 }

@@ -18,6 +18,8 @@ export interface IBusinessForm {
   description: string
   website?: string
   nit?: string
+  longitude: number
+  latitude: number
   categories: string[]
 }
 export interface BusinessRequestDTO extends IBusinessForm {
@@ -36,6 +38,8 @@ export interface IBusinessResponse {
   userId: number
   recommendations: number
   averageRating: number
+  longitude: number
+  latitude: number
   categories: ICategoryResponse[]
 }
 export interface ICategoryResponse {
@@ -81,4 +85,18 @@ export interface IRecommendationResponse{
   user: IUserResponse
   business: Omit<IBusinessResponse, 'categories'>
   recommended: number
+}
+export interface ICouponResponse {
+  id: number;
+  title: string;
+  description: string;
+  code: string;
+  expiresAt: string;
+  businessId: string;
+}
+export interface ICouponFormData {
+  title: string;
+  description: string;
+  code: string;
+  expiresAt: string;
 }

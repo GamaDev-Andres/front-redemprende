@@ -9,6 +9,17 @@ import { useSession } from 'next-auth/react'
 import { useParams } from 'next/navigation'
 import { FaThumbsUp } from 'react-icons/fa'
 import RatingsModal from '../RatingsModal'
+import { Button } from '../ui/button'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from '../ui/dialog'
+import MapWithLocations from '../map/MapWithLocations'
+import { useEffect, useState } from 'react'
+import Coupons from '../coupons/Coupons'
 
 interface ProfileProps {
   data: IProfileResponse | undefined
@@ -18,8 +29,27 @@ const ProfileInfo = (props: ProfileProps) => {
   const { data } = props
   const { data: session } = useSession()
   const { id } = useParams()
-  const isSameUser = (session?.user?.id ?? 0) === Number(id)
+  const [userCoords, setUserCoords] = useState<[number, number] | null>(null)
 
+  const isSameUser = (session?.user?.id ?? 0) === Number(id)
+  const getUserLocation = async () => {
+    if (!navigator.geolocation) {
+      console.error('La geolocalización no es soportada por este navegador.')
+      return
+    }
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        const { latitude, longitude } = position.coords
+        setUserCoords([latitude, longitude])
+      },
+      error =>
+        console.error('Error obteniendo la ubicación del usuario:', error)
+    )
+  }
+
+  useEffect(() => {
+    getUserLocation()
+  }, [])
   if (!data) {
     return (
       <p className='text-center text-gray-500'>
@@ -75,6 +105,11 @@ const ProfileInfo = (props: ProfileProps) => {
         </div>
 
         <Separator />
+        <div className='space-y-2'>
+          <Coupons isSameUser={isSameUser} businessId={data.id.toString()} />
+        </div>
+
+        <Separator />
 
         {/* Ubicación */}
         <div className='space-y-2'>
@@ -83,6 +118,26 @@ const ProfileInfo = (props: ProfileProps) => {
             {data.city}, {data.country}
           </p>
           {data.address && <p>{data.address}</p>}
+          {data.latitude && data.longitude && (
+            <>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button>Ver Ubicación</Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Comparar Ubicaciones</DialogTitle>
+                  </DialogHeader>
+                  <div className='my-4'>
+                    <MapWithLocations
+                      businessCoords={[data.latitude, data.longitude]}
+                      userCoords={userCoords ?? null}
+                    />
+                  </div>
+                </DialogContent>
+              </Dialog>
+            </>
+          )}
         </div>
 
         {/* Sitio Web */}

@@ -1,6 +1,7 @@
 // /app/(private)/layout.tsx
 'use client'
 
+import Footer from '@/components/Footer'
 import { NavMenu } from '@/components/NavMenu'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useSession } from 'next-auth/react'
@@ -58,11 +59,7 @@ export default function PrivateLayout ({ children }: { children: ReactNode }) {
     <div className='flex flex-col min-h-screen'>
       <NavMenu />
       <main className='flex-1'>{children}</main>
-      <footer className='flex items-center justify-center border-t p-4'>
-        <p className='text-sm text-muted-foreground'>
-          &copy; {new Date().getFullYear()} hecho con ❤️ por Andres Gama.
-        </p>
-      </footer>
+      <Footer />
     </div>
   )
 }
