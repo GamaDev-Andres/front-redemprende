@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query'
 export function useGetProfileByIdQuery (id: string) {
   return useQuery({
     queryKey: [QUERY_KEYS.PROFILE.GETBYID, id],
+    retry: 0,
     queryFn: async () => {
       if (!id) return
       return await getProfileById(id)

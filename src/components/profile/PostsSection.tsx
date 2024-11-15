@@ -8,7 +8,8 @@ import { useGetAllPostsQuery } from '@/queries/post'
 const PostsSection = () => {
   const { id } = useParams()
   const { data: session } = useSession()
-  const {data} = useGetAllPostsQuery(session?.user.id ?? 0)
+  const {data} = useGetAllPostsQuery(Number(id) ?? 0)
+  
   return (
     <section className='lg:w-full p-6 bg-gray-50 dark:bg-slate-900'>
       <h2 className='text-2xl font-semibold mb-4 text-center'>
