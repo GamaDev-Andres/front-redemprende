@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { signIn } from 'next-auth/react'
+import { toast } from 'sonner'
 
 
 const LoginForm = () => {
@@ -22,7 +23,7 @@ const LoginForm = () => {
     if (!res?.ok) {
       setError('Credenciales inválidas')
     } else {
-      alert('Inicio de sesión exitoso!')
+      toast.success('Inicio de sesión exitoso!')
     }
   }
 

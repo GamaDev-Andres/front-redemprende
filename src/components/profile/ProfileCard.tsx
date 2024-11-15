@@ -88,7 +88,7 @@ const ProfileCard: React.FC<IBusinessResponse> = ({
           {corporateEmail && (
             <a
               href={`mailto:${corporateEmail}`}
-              className='text-sm border border-gray-300 rounded-md px-4 py-2 flex items-center hover:bg-gray-100'
+              className='text-sm rounded-md px-4 py-2 flex items-center'
             >
               Contacto
             </a>

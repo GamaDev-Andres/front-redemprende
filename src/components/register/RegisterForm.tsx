@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 const urlBackend = process.env.NEXT_PUBLIC_API_URL;
 
@@ -11,7 +12,12 @@ const RegisterForm = () => {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [error, setError] = useState("");
-
+  const reset = () => {
+    setEmail("");
+    setPassword("");
+    setName("");
+    setError("");
+  }
   const handleRegister = async () => {
     try {
       const res = await fetch(`${urlBackend}/user/register`, {
@@ -21,7 +27,8 @@ const RegisterForm = () => {
       });
 
       if (res.ok) {
-        alert("Registro exitoso!");
+        toast.success("Registro exitoso!");
+        reset();
       } else {
         const data = await res.json();
         setError(data.message || "Error al registrar.");

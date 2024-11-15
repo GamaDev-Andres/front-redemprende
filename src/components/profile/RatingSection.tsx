@@ -51,7 +51,6 @@ const RatingSection = () => {
       rating: data.rating,
       comment: data.comment
     })
-    reset()
     setIsDialogOpen(false)
   }
 

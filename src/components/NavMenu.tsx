@@ -38,6 +38,13 @@ export function NavMenu () {
             </Link>
           </NavigationMenuItem>
           <NavigationMenuItem>
+            <Link href='/create-profile' legacyBehavior passHref>
+              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                Crear Perfil
+              </NavigationMenuLink>
+            </Link>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
             <LogoutButton />
           </NavigationMenuItem>
           <NavigationMenuItem>
