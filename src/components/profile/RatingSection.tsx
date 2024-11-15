@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import {
   Dialog,
@@ -13,6 +13,7 @@ import { useCreateOrUpdateRating } from '@/mutations/rating'
 import { useSession } from 'next-auth/react'
 import { useParams } from 'next/navigation'
 import { useGetProfileByIdQuery } from '@/queries/profile'
+import { useGetRatingQuery } from '@/queries/rating'
 
 interface RatingFormInputs {
   comment: string
@@ -24,10 +25,20 @@ const RatingSection = () => {
   const { data: session } = useSession()
   const { id } = useParams()
   const { data: businessData } = useGetProfileByIdQuery(id.toString() ?? '')
-
+  const { data: ratingData } = useGetRatingQuery(
+    session?.user?.id ?? 0,
+    businessData?.id ?? 0
+  )
   const { mutateAsync } = useCreateOrUpdateRating()
-  const { register, handleSubmit, reset,setValue,watch } = useForm<RatingFormInputs>()
+  const { register, handleSubmit, reset, setValue, watch } =
+    useForm<RatingFormInputs>()
 
+  useEffect(() => {
+    reset({
+      comment: ratingData?.comment ?? '',
+      rating: ratingData?.rating ?? 0
+    })
+  }, [ratingData])
   const handleRating = (newRating: number) => {
     setIsDialogOpen(true)
     setValue('rating', newRating)
@@ -37,7 +48,7 @@ const RatingSection = () => {
     await mutateAsync({
       userId: session?.user?.id ?? 0,
       businessId: businessData?.id ?? 0,
-      rating : data.rating,
+      rating: data.rating,
       comment: data.comment
     })
     reset()
@@ -53,14 +64,16 @@ const RatingSection = () => {
             key={index}
             onClick={() => handleRating(index + 1)}
             className={`${
-                watch('rating') > index ? 'text-yellow-500' : 'text-gray-400'
+              watch('rating') > index ? 'text-yellow-500' : 'text-gray-400'
             } hover:text-yellow-400 transition`}
           >
             <Star size={20} />
           </button>
         ))}
       </div>
-      <p className='text-sm text-gray-500'>Calificación: {watch('rating')} de 5</p>
+      <p className='text-sm text-gray-500'>
+        Calificación: {watch('rating')} de 5
+      </p>
 
       {/* Modal */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>

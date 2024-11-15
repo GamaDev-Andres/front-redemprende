@@ -5,6 +5,10 @@ import { Separator } from '@/components/ui/separator'
 import { IProfileResponse } from '@/types'
 import ToogleRecomendation from './ToogleRecomendation'
 import RatingSection from './RatingSection'
+import { useSession } from 'next-auth/react'
+import { useParams } from 'next/navigation'
+import { FaStar, FaThumbsUp } from 'react-icons/fa'
+import RatingsModal from '../RatingsModal'
 
 interface ProfileProps {
   data: IProfileResponse | undefined
@@ -12,6 +16,9 @@ interface ProfileProps {
 
 const ProfileInfo = (props: ProfileProps) => {
   const { data } = props
+  const { data: session } = useSession()
+  const { id } = useParams()
+  const isSameUser = (session?.user?.id ?? 0) === Number(id)
 
   if (!data) {
     return (
@@ -25,6 +32,23 @@ const ProfileInfo = (props: ProfileProps) => {
     <Card className='max-w-sm mx-auto shadow-none border-none p-0'>
       <CardHeader>
         <CardTitle className='text-3xl font-bold'>{data.name}</CardTitle>
+        {/* Rating and Recommendations */}
+        <div className='flex items-center space-x-4 mt-2'>
+          {data.averageRating !== undefined && (
+            <RatingsModal
+              businessId={data.id}
+              averageRating={data.averageRating}
+            />
+          )}
+          {data.recommendations !== undefined && (
+            <div className='flex items-center text-blue-500'>
+              <FaThumbsUp className='mr-1' />
+              <span className='text-sm font-medium'>
+                {data.recommendations} recomendaciones
+              </span>
+            </div>
+          )}
+        </div>
       </CardHeader>
       <CardContent className='space-y-6'>
         {/* Categorías */}
@@ -101,18 +125,22 @@ const ProfileInfo = (props: ProfileProps) => {
           </>
         )}
 
-        {/* Calificación */}
-        <Separator />
-        <RatingSection />
+        {!isSameUser && (
+          <>
+            {/* Calificación */}
+            <Separator />
+            <RatingSection />
 
-        {/* Recomendación */}
-        <Separator />
-        <div className='space-y-2'>
-          <h2 className='text-lg font-semibold'>
-            Recomendar este emprendimiento
-          </h2>
-          <ToogleRecomendation />
-        </div>
+            {/* Recomendación */}
+            <Separator />
+            <div className='space-y-2'>
+              <h2 className='text-lg font-semibold'>
+                Recomendar este emprendimiento
+              </h2>
+              <ToogleRecomendation />
+            </div>
+          </>
+        )}
       </CardContent>
     </Card>
   )

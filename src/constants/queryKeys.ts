@@ -8,5 +8,12 @@ export const QUERY_KEYS = {
     },
     POST: {
         GETALL: 'GET_ALL_POSTS'
+    },
+    RECOMMENDATION: {
+        GET: 'GET_RECOMMENDATION'
+    },
+    RATING: {
+        GET: 'GET_RATING',
+        GET_ALL_BY_BUSINESS: 'GET_ALL_RATINGS_BY_BUSINESS'
     }
 }

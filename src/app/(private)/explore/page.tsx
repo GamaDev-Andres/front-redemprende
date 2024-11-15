@@ -22,9 +22,8 @@ const Explore = () => {
 
     if (watch('selectedCategories').length === 0 && !watch('searchQuery'))
       return data
-    if (queryData  && data) {
-      if(watch('selectedCategories').length > 0) {
-        
+    if (queryData && data) {
+      if (watch('selectedCategories').length > 0) {
         queryData = data.filter(profile =>
           profile.categories.some(category =>
             watch('selectedCategories').includes(category.id.toString())
@@ -42,6 +41,7 @@ const Explore = () => {
 
     return queryData
   }, [data, watch('selectedCategories'), watch('searchQuery')])
+
   return (
     <FormProvider {...methods}>
       <main className='dark:bg-slate-900 py-2'>

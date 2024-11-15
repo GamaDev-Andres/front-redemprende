@@ -33,24 +33,17 @@ export interface IBusinessResponse {
   description: string
   website?: string
   nit?: string
+  userId: number
+  recommendations: number
+  averageRating: number
   categories: ICategoryResponse[]
 }
 export interface ICategoryResponse {
   id: number
   name: string
 }
-export interface IProfileResponse {
-  corporateEmail: string
-  name: string
-  address?: string
-  country: string
-  city: string
-  description: string
-  website?: string
-  nit?: string
-  categories: ICategoryResponse[]
-  id: number
-}
+
+export type IProfileResponse = IBusinessResponse
 export interface IPostRequest{
   title: string
   description: string
@@ -75,4 +68,17 @@ export interface IRatingRequest{
   businessId: number
   rating: number
   comment?:string | null
+}
+export interface IRatingResponse{
+  id: number
+  user: IUserResponse
+  business: Omit<IBusinessResponse, 'categories'>
+  rating: number
+  comment?:string | null
+}
+export interface IRecommendationResponse{
+  id: number
+  user: IUserResponse
+  business: Omit<IBusinessResponse, 'categories'>
+  recommended: number
 }
